@@ -1,0 +1,754 @@
+TITLE: Styling UI Component with Tailwind CSS in HTML
+DESCRIPTION: This snippet provides a standard HTML example of applying Tailwind CSS utility classes to create a card component. It mirrors the JSX example but uses standard `class` attributes, showcasing the direct application of utilities for layout, appearance, spacing, and text styling, including dark mode variants.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/styling-with-utility-classes.mdx#_snippet_1
+
+LANGUAGE: HTML
+CODE:
+```
+<!-- prettier-ignore -->
+<div class="mx-auto flex max-w-sm items-center gap-x-4 rounded-xl bg-white p-6 shadow-lg outline outline-black/5 dark:bg-slate-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">
+  <img class="size-12 shrink-0" src="/img/logo.svg" alt="ChitChat Logo" />
+  <div>
+    <div class="text-xl font-medium text-black dark:text-white">ChitChat</div>
+    <p class="text-gray-500 dark:text-gray-400">You have a new message!</p>
+  </div>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Styling UI Component with Tailwind CSS in JSX
+DESCRIPTION: This snippet demonstrates how to apply Tailwind CSS utility classes directly to HTML elements within a JSX context (like React). It shows the structure of a card component with styling for layout, appearance, spacing, and text, including handling dark mode styles and embedding an SVG.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/styling-with-utility-classes.mdx#_snippet_0
+
+LANGUAGE: JSX
+CODE:
+```
+<div className="mx-auto flex max-w-sm items-center gap-x-4 rounded-xl bg-white p-6 shadow-lg outline outline-black/5 dark:bg-slate-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">
+  <svg className="size-12 shrink-0" viewBox="0 0 40 40">
+    <defs>
+      <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="a">
+        <stop stopColor="#2397B3" offset="0%"></stop>
+        <stop stopColor="#13577E" offset="100%"></stop>
+      </linearGradient>
+      <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="b">
+        <stop stopColor="#73DFF2" offset="0%"></stop>
+        <stop stopColor="#47B1EB" offset="100%"></stop>
+      </linearGradient>
+    </defs>
+    <g fill="none" fillRule="evenodd">
+      <path
+        d="M28.872 22.096c.084.622.128 1.258.128 1.904 0 7.732-6.268 14-14 14-2.176 0-4.236-.496-6.073-1.382l-6.022 2.007c-1.564.521-3.051-.966-2.53-2.53l2.007-6.022A13.944 13.944 0 0 1 1 24c0-7.331 5.635-13.346 12.81-13.95A9.967 9.967 0 0 0 13 14c0 5.523 4.477 10 10 10a9.955 9.955 0 0 0 5.872-1.904z"
+        fill="url(#a)"
+        transform="translate(1 1)"
+      ></path>
+      <path
+        d="M35.618 20.073l2.007 6.022c.521 1.564-.966 3.051-2.53 2.53l-6.022-2.007A13.944 13.944 0 0 1 23 28c-7.732 0-14-6.268-14-14S15.268 0 23 0s14 6.268 14 14c0 2.176-.496 4.236-1.382 6.073z"
+        fill="url(#b)"
+        transform="translate(1 1)"
+      ></path>
+      <path
+        d="M18 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM24 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM30 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"
+        fill="#FFF"
+      ></path>
+    </g>
+  </svg>
+  <div>
+    <div className="text-xl font-medium text-black dark:text-white">ChitChat</div>
+    <p className="text-gray-500 dark:text-gray-400">You have a new message!</p>
+  </div>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Adding Viewport Meta Tag in HTML
+DESCRIPTION: Required viewport meta tag that should be added to the document head for proper responsive behavior.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/responsive-design.mdx#2025-04-22_snippet_0
+
+LANGUAGE: html
+CODE:
+```
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+```
+
+----------------------------------------
+
+TITLE: Building Component with Tailwind Utilities (HTML)
+DESCRIPTION: Demonstrates building a responsive component using Tailwind CSS utility classes in pure HTML. It shows responsive variants (sm:), spacing (gap), layout (flex, items-center), and state variants (hover:, active:) for styling, serving as the HTML equivalent of the React example.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/styling-with-utility-classes.mdx#_snippet_3
+
+LANGUAGE: html
+CODE:
+```
+<!-- [!code classes:sm:flex-row,sm:py-4,sm:gap-6,sm:mx-0,sm:shrink-0,sm:text-left,sm:items-center] -->
+<!-- [!code classes:hover:text-white,hover:bg-purple-600,hover:border-transparent,active:bg-purple-700] -->
+<div class="flex flex-col gap-2 p-8 sm:flex-row sm:items-center sm:gap-6 sm:py-4 ...">
+  <img class="mx-auto block h-24 rounded-full sm:mx-0 sm:shrink-0" src="/img/erin-lindford.jpg" alt="" />
+  <div class="space-y-2 text-center sm:text-left">
+    <div class="space-y-0.5">
+      <p class="text-lg font-semibold text-black">Erin Lindford</p>
+      <p class="font-medium text-gray-500">Product Engineer</p>
+    </div>
+    <!-- prettier-ignore -->
+    <button class="border-purple-200 text-purple-600 hover:border-transparent hover:bg-purple-600 hover:text-white active:bg-purple-700 ...">
+      Message
+    </button>
+  </div>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Using Block and Inline Display Utilities in Tailwind CSS
+DESCRIPTION: HTML example showing how to use Tailwind's inline, inline-block, and block utility classes to control text flow and element placement within a paragraph.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/display.mdx#2025-04-22_snippet_1
+
+LANGUAGE: html
+CODE:
+```
+<!-- [!code classes:inline,inline-block,block] -->
+<p>
+  When controlling the flow of text, using the CSS property <span class="inline">display: inline</span> will cause the
+  text inside the element to wrap normally.
+</p>
+<p>
+  While using the property <span class="inline-block">display: inline-block</span> will wrap the element to prevent the
+  text inside from extending beyond its parent.
+</p>
+<p>
+  Lastly, using the property <span class="block">display: block</span> will put the element on its own line and fill its
+  parent.
+</p>
+```
+
+----------------------------------------
+
+TITLE: Customizing Breakpoints with Theme Variables in CSS
+DESCRIPTION: Demonstrates how to customize Tailwind breakpoints using theme variables. Shows setting custom breakpoint sizes and creating new breakpoints using rem units.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/responsive-design.mdx#2025-04-22_snippet_7
+
+LANGUAGE: css
+CODE:
+```
+@import "tailwindcss";
+
+@theme {
+  --breakpoint-xs: 30rem;
+  --breakpoint-2xl: 100rem;
+  --breakpoint-3xl: 120rem;
+}
+```
+
+----------------------------------------
+
+TITLE: Tailwind CSS Hover State Implementation
+DESCRIPTION: Illustrates how Tailwind CSS implements hover states using separate classes for default and hover states.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/hover-focus-and-other-states.mdx#2025-04-22_snippet_2
+
+LANGUAGE: css
+CODE:
+```
+.bg-sky-500 {
+  background-color: #0ea5e9;
+}
+
+.hover\:bg-sky-700:hover {
+  background-color: #0369a1;
+}
+```
+
+----------------------------------------
+
+TITLE: Defining Font Family Utility Classes in Tailwind CSS
+DESCRIPTION: This example demonstrates basic usage of font family utility classes in Tailwind CSS, including font-sans, font-serif, and font-mono.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/font-family.mdx#2025-04-22_snippet_1
+
+LANGUAGE: html
+CODE:
+```
+<p class="font-sans ...">The quick brown fox ...</p>
+<p class="font-serif ...">The quick brown fox ...</p>
+<p class="font-mono ...">The quick brown fox ...</p>
+```
+
+----------------------------------------
+
+TITLE: Using Grid Display Utility in Tailwind CSS
+DESCRIPTION: HTML example showing how to use the grid utility to create a CSS grid container, which is useful for two-dimensional layouts with rows and columns.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/display.mdx#2025-04-22_snippet_5
+
+LANGUAGE: html
+CODE:
+```
+<!-- [!code classes:grid] -->
+<div class="grid grid-cols-3 grid-rows-3 gap-4">
+  <!-- ... -->
+</div>
+```
+
+----------------------------------------
+
+TITLE: Dark Mode Toggle with Tailwind CSS
+DESCRIPTION: Example of implementing dark mode support based on user preferences using Tailwind's dark variant. This code defines both light and dark color schemes for a card component, with different background, text, and accent colors.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/hover-focus-and-other-states.mdx#2025-04-22_snippet_36
+
+LANGUAGE: html
+CODE:
+```
+<div class="bg-white dark:bg-gray-900 ...">
+  <!-- ... -->
+  <h3 class="text-gray-900 dark:text-white ...">Writes upside-down</h3>
+  <p class="text-gray-500 dark:text-gray-400 ...">
+    The Zero Gravity Pen can be used to write in any orientation, including upside-down. It even works in outer space.
+  </p>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Implementing Fixed Header with TailwindCSS
+DESCRIPTION: Example showing how to create a fixed header in a contacts list using TailwindCSS fixed positioning. The header remains at the top of the viewport while the content scrolls underneath. Uses the fixed utility class along with top-0, right-0, and left-0 for full-width positioning.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/position.mdx#2025-04-22_snippet_4
+
+LANGUAGE: html
+CODE:
+```
+<div class="relative">
+  <div class="fixed top-0 right-0 left-0">Contacts</div>
+  <div>
+    <div>
+      <img src="/img/andrew.jpg" />
+      <strong>Andrew Alfred</strong>
+    </div>
+    <div>
+      <img src="/img/debra.jpg" />
+      <strong>Debra Houston</strong>
+    </div>
+    <!-- ... -->
+  </div>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Horizontal Margin Example in HTML with Tailwind CSS
+DESCRIPTION: Demonstrates the use of the mx-8 utility class to add horizontal margin to an element.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/margin.mdx#2025-04-22_snippet_3
+
+LANGUAGE: HTML
+CODE:
+```
+<div class="mx-8 ...">mx-8</div>
+```
+
+----------------------------------------
+
+TITLE: Vertical Margin Example in HTML with Tailwind CSS
+DESCRIPTION: Shows how to add vertical margin to an element using the my-8 utility class.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/margin.mdx#2025-04-22_snippet_4
+
+LANGUAGE: HTML
+CODE:
+```
+<div class="my-8 ...">my-8</div>
+```
+
+----------------------------------------
+
+TITLE: Installing Tailwind CSS v4.0
+DESCRIPTION: Three-step installation process for Tailwind CSS v4.0, showing how to install the package, add the PostCSS plugin, and import Tailwind in your CSS file.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/blog/tailwindcss-v4/index.mdx#2025-04-22_snippet_1
+
+LANGUAGE: shell
+CODE:
+```
+npm i tailwindcss @tailwindcss/postcss;
+```
+
+LANGUAGE: javascript
+CODE:
+```
+export default {
+  plugins: ["@tailwindcss/postcss"],
+};
+```
+
+LANGUAGE: css
+CODE:
+```
+@import "tailwindcss";
+```
+
+----------------------------------------
+
+TITLE: Responsive Image Width Example
+DESCRIPTION: Demonstrates using responsive utility classes to adjust image width across different breakpoints. Width starts at 16 units, increases to 32 at medium screens, and 48 at large screens.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/responsive-design.mdx#2025-04-22_snippet_1
+
+LANGUAGE: html
+CODE:
+```
+<img class="w-16 md:w-32 lg:w-48" src="..." />
+```
+
+----------------------------------------
+
+TITLE: Building Component with Tailwind Utilities (React)
+DESCRIPTION: Demonstrates building a responsive component using Tailwind CSS utility classes within a React/JSX context. It showcases responsive variants (@sm:), spacing (space-y, gap-x), layout (flex, items-center), and state variants (hover:, active:) for styling.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/styling-with-utility-classes.mdx#_snippet_2
+
+LANGUAGE: javascript
+CODE:
+```
+<div className="mx-auto max-w-sm space-y-2 rounded-xl bg-white px-8 py-8 shadow-lg ring ring-black/5 @sm:flex @sm:items-center @sm:space-y-0 @sm:gap-x-6 @sm:py-4">
+  <img
+    className="mx-auto block h-24 rounded-full @sm:mx-0 @sm:shrink-0"
+    src={erinLindford.src}
+    alt="Woman's Face"
+  />
+  <div className="space-y-2 text-center @sm:text-left">
+    <div className="space-y-0.5">
+      <p className="text-lg font-semibold text-black">Erin Lindford</p>
+      <p className="font-medium text-gray-500">Product Engineer</p>
+    </div>
+    <button className="rounded-full border border-purple-200 px-4 py-1 text-sm font-semibold text-purple-600 hover:border-transparent hover:bg-purple-600 hover:text-white active:bg-purple-700">
+      Message
+    </button>
+  </div>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Defining Custom Color Theme Variable in TailwindCSS
+DESCRIPTION: Shows how to define a new color theme variable '--color-mint-500' using the @theme directive, which enables the use of related utility classes.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/theme.mdx#2025-04-22_snippet_0
+
+LANGUAGE: css
+CODE:
+```
+@import "tailwindcss";
+
+@theme {
+  --color-mint-500: oklch(0.72 0.11 178);
+}
+```
+
+----------------------------------------
+
+TITLE: CSS-First Theme Configuration
+DESCRIPTION: Demonstrates the new CSS-based configuration approach using @theme directive to define custom properties like fonts, breakpoints, colors, and animation easings.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/blog/tailwindcss-v4/index.mdx#2025-04-22_snippet_6
+
+LANGUAGE: css
+CODE:
+```
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Satoshi", "sans-serif";
+
+  --breakpoint-3xl: 1920px;
+
+  --color-avocado-100: oklch(0.99 0 0);
+  --color-avocado-200: oklch(0.98 0.04 113.22);
+  --color-avocado-300: oklch(0.94 0.11 115.03);
+  --color-avocado-400: oklch(0.92 0.19 114.08);
+  --color-avocado-500: oklch(0.84 0.18 117.33);
+  --color-avocado-600: oklch(0.53 0.12 118.34);
+
+  --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ... */
+}
+```
+
+----------------------------------------
+
+TITLE: Using size-* Utilities for Equal Dimensions
+DESCRIPTION: Demonstrates the new size-* utility that sets both width and height simultaneously, simplifying common sizing patterns.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/blog/tailwindcss-v3-4/index.mdx#2025-04-22_snippet_8
+
+LANGUAGE: html
+CODE:
+```
+<div>
+  <img class="size-10" ...>
+  <img class="size-12" ...>
+  <img class="size-14" ...>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Implementing Row Direction with Tailwind CSS Flex Utilities
+DESCRIPTION: Example showing how to use flex-row to position flex items horizontally in the same direction as text. This creates a row layout with items flowing from left to right.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/flex-direction.mdx#2025-04-22_snippet_0
+
+LANGUAGE: html
+CODE:
+```
+<!-- [!code classes:flex-row] -->
+<div class="flex flex-row ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Building Form with Fieldset and Disabled State (React/JSX)
+DESCRIPTION: Provides an example of building a shipping details form using `Fieldset`, `Legend`, `Field`, `Label`, `Input`, and `Select` components. It illustrates how to dynamically disable a `Field` based on state (`country` selection) and how the `data-disabled` attribute is exposed for styling.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/blog/headless-ui-v2/index.mdx#_snippet_5
+
+LANGUAGE: jsx
+CODE:
+```
+import { Button, Description, Field, Fieldset, Input, Label, Legend, Select } from "@headlessui/react";
+import { regions } from "./countries";
+
+export function Example() {
+  const [country, setCountry] = useState(null);
+
+  return (
+    <form action="/shipping">
+      <Fieldset>
+        <Legend>Shipping details</Legend>
+        <Field>
+          <Label>Street address</Label>
+          <Input name="address" />
+        </Field>
+        <Field>
+          <Label>Country</Label>
+          <Description>We currently only ship to North America.</Description>
+          <Select name="country" value={country} onChange={(event) => setCountry(event.target.value)}>
+            <option></option>
+            <option>Canada</option>
+            <option>Mexico</option>
+            <option>United States</option>
+          </Select>
+        </Field>
+        // [!code highlight:4]
+        <Field disabled={!country}>
+          <Label className="data-[disabled]:opacity-40">State/province</Label>
+          <Select name="region" className="data-[disabled]:opacity-50">
+            <option></option>
+            {country && regions[country].map((region) => <option>{region}</option>)}
+          </Select>
+        </Field>
+        <Button>Submit</Button>
+      </Fieldset>
+    </form>
+  );
+}
+```
+
+----------------------------------------
+
+TITLE: Implementing Scrollable Calendar Grid with TailwindCSS
+DESCRIPTION: Creates a scrollable calendar grid interface using TailwindCSS utilities with sticky headers and time indicators. The component features both horizontal and vertical scrolling with fixed column and row headers.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/overflow.mdx#2025-04-22_snippet_8
+
+LANGUAGE: JSX
+CODE:
+```
+<div className="overflow-hidden dark:bg-gray-800">
+  <div className="grid max-h-90 grid-cols-[70px_repeat(7,150px)] grid-rows-[auto_repeat(16,50px)] overflow-scroll">
+    {/* Calendar frame */}
+    <div className="sticky top-0 z-10 col-start-1 row-start-1 border-b border-gray-100 bg-white bg-clip-padding py-2 text-sm font-medium text-gray-900 dark:border-black/10 dark:bg-gradient-to-b dark:from-gray-600 dark:to-gray-700 dark:text-gray-200"></div>
+    <div className="sticky top-0 z-10 col-start-2 row-start-1 border-b border-gray-100 bg-white bg-clip-padding py-2 text-center text-sm font-medium text-gray-900 dark:border-black/10 dark:bg-gradient-to-b dark:from-gray-600 dark:to-gray-700 dark:text-gray-200">
+      Sun
+    </div>
+    <!-- Additional calendar cells omitted for brevity -->
+  </div>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Creating a Reusable React Component with Tailwind CSS
+DESCRIPTION: Demonstrates how to build a reusable React component (`VacationCard`) using Tailwind CSS utility classes for styling. Shows how props can be used to make the component dynamic, allowing for easy reuse with different content.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/styling-with-utility-classes.mdx#_snippet_30
+
+LANGUAGE: jsx
+CODE:
+```
+export function VacationCard({ img, imgAlt, eyebrow, title, pricing, url }) {
+  return (
+    <div>
+      <img className="rounded-lg" src={img} alt={imgAlt} />
+      <div className="mt-4">
+        <div className="text-xs font-bold text-sky-500">{eyebrow}</div>
+        <div className="mt-1 font-bold text-gray-700">
+          <a href={url} className="hover:underline">
+            {title}
+          </a>
+        </div>
+        <div className="mt-2 text-sm text-gray-600">{pricing}</div>
+      </div>
+    </div>
+  );
+}
+```
+
+----------------------------------------
+
+TITLE: Responsive Grid Layout with Tailwind CSS and Breakpoints (JSX)
+DESCRIPTION: This JSX snippet demonstrates a responsive grid layout using Tailwind CSS utility classes within a React component context. The grid changes from 2 columns to 3 columns at the `@sm` breakpoint using the `@sm:grid-cols-3` class. This requires Tailwind CSS configured with container queries or standard breakpoints.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/styling-with-utility-classes.mdx#_snippet_9
+
+LANGUAGE: JSX
+CODE:
+```
+<div className="grid grid-cols-2 gap-4 text-center font-mono font-medium text-white @sm:grid-cols-3">
+  <div className="rounded-lg bg-sky-500 p-4">01</div>
+  <div className="rounded-lg bg-sky-500 p-4">02</div>
+  <div className="rounded-lg bg-sky-500 p-4">03</div>
+  <div className="rounded-lg bg-sky-500 p-4">04</div>
+  <div className="rounded-lg bg-sky-500 p-4">05</div>
+  <div className="rounded-lg bg-sky-500 p-4">06</div>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Data Attribute Targeting Example
+DESCRIPTION: Demonstrates targeting custom boolean data attributes without configuration.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/blog/tailwindcss-v4/index.mdx#2025-04-22_snippet_9
+
+LANGUAGE: html
+CODE:
+```
+<div data-current class="opacity-75 data-current:opacity-100">
+  <!-- ... -->
+</div>
+```
+
+----------------------------------------
+
+TITLE: HTML Variant Comparison in Tailwind CSS v4
+DESCRIPTION: Demonstrates the new composable variants feature in Tailwind CSS v4.0, showing how to replace custom selectors like 'group-has-[&:focus]' with simpler variants like 'group-has-focus' that compose naturally.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/blog/tailwindcss-v4-alpha/index.mdx#2025-04-22_snippet_1
+
+LANGUAGE: html
+CODE:
+```
+<div class="group">
+  <div class="group-has-[&:focus]:opacity-100"> <!-- [!code --] -->
+  <div class="group-has-focus:opacity-100"> <!-- [!code ++] -->
+      <!-- ... -->
+    </div>
+  </div>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Incorrect Dynamic Class Name Construction in HTML
+DESCRIPTION: Example of incorrect class name construction that Tailwind cannot detect because it uses string interpolation, resulting in class names that don't exist in the source files.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/detecting-classes-in-source-files.mdx#2025-04-22_snippet_1
+
+LANGUAGE: html
+CODE:
+```
+<div class="text-{{ error ? 'red' : 'green' }}-600"></div>
+```
+
+----------------------------------------
+
+TITLE: Implementing Headless Checkbox (React/JSX)
+DESCRIPTION: Illustrates the usage of the new `Checkbox` component along with `Field`, `Label`, and `Description` to create a custom-styled checkbox input with proper accessibility attributes. It shows how state (`data-checked`, `data-focus`) can be used for styling via CSS classes.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/blog/headless-ui-v2/index.mdx#_snippet_2
+
+LANGUAGE: jsx
+CODE:
+```
+import { Checkbox, Description, Field, Label } from "@headlessui/react";
+import { CheckmarkIcon } from "./icons/checkmark";
+import clsx from "clsx";
+
+function Example() {
+  return (
+    <Field>
+      // [!code highlight:11]
+      <Checkbox
+        defaultChecked
+        className={clsx(
+          "size-4 rounded border bg-white dark:bg-white/5",
+          "data-[checked]:border-transparent data-[checked]:bg-blue-500",
+          "focus:outline-none data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500",
+        )}
+      >
+        <CheckmarkIcon className="stroke-white opacity-0 group-data-[checked]:opacity-100" />
+      </Checkbox>
+      <div>
+        <Label>Enable beta features</Label>
+        <Description>This will give you early access to any awesome new features we're developing.</Description>
+      </div>
+    </Field>
+  );
+}
+```
+
+----------------------------------------
+
+TITLE: Creating a Custom Dropdown Menu with Headless UI in React
+DESCRIPTION: Implementation of a custom dropdown menu using Headless UI's Menu component system in React. This example demonstrates the compound component pattern with context-based communication between components.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/blog/building-react-and-vue-support-for-tailwind-ui/index.mdx#2025-04-22_snippet_2
+
+LANGUAGE: jsx
+CODE:
+```
+import { Menu } from "@headlessui/react";
+
+function MyDropdown() {
+  return (
+    <Menu as="div" className="relative">
+      <Menu.Button className="rounded bg-blue-600 px-4 py-2 text-white ...">Options</Menu.Button>
+      <Menu.Items className="absolute right-0 mt-1">
+        <Menu.Item>
+          {({ active }) => (
+            <a className={`${active && "bg-blue-500 text-white"} ...`} href="/account-settings">
+              Account settings
+            </a>
+          )}
+        </Menu.Item>
+        <Menu.Item>
+          {({ active }) => (
+            <a className={`${active && "bg-blue-500 text-white"} ...`} href="/documentation">
+              Documentation
+            </a>
+          )}
+        </Menu.Item>
+        <Menu.Item disabled>
+          <span className="opacity-75 ...">Invite a friend (coming soon!)</span>
+        </Menu.Item>
+      </Menu.Items>
+    </Menu>
+  );
+}
+```
+
+----------------------------------------
+
+TITLE: Applying Dark Mode Classes in HTML with Tailwind CSS
+DESCRIPTION: This snippet demonstrates how to use Tailwind CSS classes to style elements differently in dark mode. It includes classes for background color and text color changes.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/dark-mode.mdx#2025-04-22_snippet_0
+
+LANGUAGE: HTML
+CODE:
+```
+<div class="bg-white dark:bg-gray-800 rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5">
+  <div>
+    <span class="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 shadow-lg">
+      <svg class="h-6 w-6 stroke-white" ...>
+        <!-- ... -->
+      </svg>
+    </span>
+  </div>
+  <h3 class="text-gray-900 dark:text-white mt-5 text-base font-medium tracking-tight ">Writes upside-down</h3>
+  <p class="text-gray-500 dark:text-gray-400 mt-2 text-sm ">
+    The Zero Gravity Pen can be used to write in any orientation, including upside-down. It even works in outer space.
+  </p>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Center Alignment with justify-center
+DESCRIPTION: Examples demonstrating both regular and safe center alignment using justify-center and justify-center-safe utilities.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/justify-content.mdx#2025-04-22_snippet_1
+
+LANGUAGE: html
+CODE:
+```
+<div class="flex justify-center ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+</div>
+```
+
+LANGUAGE: html
+CODE:
+```
+<div class="flex justify-center-safe ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Basic Flex Grow Example
+DESCRIPTION: HTML example showing how to use the grow utility to allow a flex item to fill available space.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/flex-grow.mdx#2025-04-22_snippet_1
+
+LANGUAGE: html
+CODE:
+```
+<div class="flex ...">
+  <div class="size-14 flex-none ...">01</div>
+  <div class="size-14 grow ...">02</div>
+  <div class="size-14 flex-none ...">03</div>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Applying Multiple Color Utilities in a Notification Component
+DESCRIPTION: Example showcasing how to apply various Tailwind CSS color utilities to create a notification component with background, text, border, stroke, and outline colors, including dark mode variants.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/colors.mdx#2025-04-22_snippet_1
+
+LANGUAGE: html
+CODE:
+```
+<!-- [!code classes:bg-white,border-pink-300,bg-pink-100,stroke-pink-700,text-gray-950,text-gray-500,outline-black/5,text-gray-700,dark:bg-gray-800,dark:border-pink-300/10,dark:bg-pink-400/10,dark:stroke-pink-500,dark:text-gray-400,dark:text-white] -->
+<div class="flex items-center gap-4 rounded-lg bg-white p-6 shadow-md outline outline-black/5 dark:bg-gray-800">
+  <!-- prettier-ignore -->
+  <span class="inline-flex shrink-0 rounded-full border border-pink-300 bg-pink-100 p-2 dark:border-pink-300/10 dark:bg-pink-400/10">
+    <svg class="size-6 stroke-pink-700 dark:stroke-pink-500"><!-- ... --></svg>
+  </span>
+  <div>
+    <p class="text-gray-700 dark:text-gray-400">
+      <span class="font-medium text-gray-950 dark:text-white">Tom Watson</span> mentioned you in
+      <span class="font-medium text-gray-950 dark:text-white">Logo redesign</span>
+    </p>
+    <time class="mt-1 block text-gray-500" datetime="9:37">9:37am</time>
+  </div>
+</div>
+```
+
+----------------------------------------
+
+TITLE: Tailwind CSS Interactive States Example
+DESCRIPTION: Shows how to apply hover, focus, and active states to a button using Tailwind CSS classes.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/hover-focus-and-other-states.mdx#2025-04-22_snippet_4
+
+LANGUAGE: html
+CODE:
+```
+<button class="bg-violet-500 hover:bg-violet-600 focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 active:bg-violet-700 ...">
+  Save changes
+</button>
+```
+
+----------------------------------------
+
+TITLE: Responsive Grid Layout with Tailwind CSS Breakpoints
+DESCRIPTION: Example of creating a responsive grid that changes column count at different viewport widths using Tailwind's responsive variants. The grid starts with 3 columns on mobile, changes to 4 columns at medium screens, and 6 columns at large screens.
+SOURCE: https://github.com/tailwindlabs/tailwindcss.com/blob/main/src/docs/hover-focus-and-other-states.mdx#2025-04-22_snippet_34
+
+LANGUAGE: html
+CODE:
+```
+<div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+  <!-- ... -->
+</div>
+```
