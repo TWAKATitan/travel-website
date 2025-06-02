@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@theme {
+  --font-display: 'Satoshi', 'sans-serif';
+  --breakpoint-3xl: 1920px;
+  --color-primary-500: oklch(0.84 0.18 117.33);
+  --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+} 

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- 背景圆形 -->
+  <circle cx="32" cy="32" r="30" fill="#1e40af" stroke="#3b82f6" stroke-width="2"/>
+  
+  <!-- 地球 -->
+  <circle cx="32" cy="32" r="20" fill="#22c55e"/>
+  
+  <!-- 地球上的大陆轮廓 -->
+  <path d="M20 25 Q25 20 30 25 Q35 30 40 25 Q45 30 40 35 Q35 40 30 35 Q25 30 20 35 Z" fill="#16a34a"/>
+  <path d="M15 35 Q20 32 25 38 Q30 42 35 38" fill="#16a34a"/>
+  
+  <!-- 飞机 -->
+  <g transform="translate(45, 20) rotate(45)">
+    <!-- 机身 -->
+    <rect x="-1" y="-8" width="2" height="16" fill="#ffffff" rx="1"/>
+    <!-- 机翼 -->
+    <rect x="-6" y="-1" width="12" height="2" fill="#ffffff" rx="1"/>
+    <!-- 尾翼 -->
+    <rect x="-3" y="6" width="6" height="2" fill="#ffffff" rx="1"/>
+  </g>
+  
+  <!-- 飞行轨迹 -->
+  <path d="M15 15 Q32 8 50 20" stroke="#ffffff" stroke-width="2" fill="none" stroke-dasharray="3,2" opacity="0.8"/>
+  
+  <!-- 装饰星星 -->
+  <circle cx="18" cy="18" r="1.5" fill="#fbbf24"/>
+  <circle cx="48" cy="45" r="1" fill="#fbbf24"/>
+</svg> 
