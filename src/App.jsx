@@ -12,8 +12,10 @@ import PackagesPage from './pages/PackagesPage';
 import CustomerServicePage from './pages/CustomerServicePage';
 import { FaCalendarAlt, FaRegCommentDots } from 'react-icons/fa';
 import { travelInfoSections } from './data/travelInfoData'; // Import travel info data
+import { client } from './sanity/client'; // 導入 Sanity 客戶端
 
-const scenicSpots = [
+// 初始假資料陣列 - 將會被移入 useState
+const initialScenicSpots = [
   {
     id: 1,
     title: '古風．佐原商家町飯店',
@@ -219,7 +221,7 @@ const AnimatedSpotCard = ({ spot, index }) => {
   );
 };
 
-const HomePage = () => {
+const HomePage = ({ scenicSpots }) => {
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
   const [activeInteractiveItemIndex, setActiveInteractiveItemIndex] = useState(0);
 
@@ -234,7 +236,7 @@ const HomePage = () => {
       setCurrentHeroIndex((prevIndex) => (prevIndex + 1) % scenicSpots.length);
     }, 7000); // Change slide every 7 seconds
     return () => clearTimeout(timer);
-  }, [currentHeroIndex]);
+  }, [currentHeroIndex, scenicSpots.length]);
 
   // Effect for interactive section animation
   useEffect(() => {
@@ -397,10 +399,72 @@ function App() {
   const navigate = useNavigate();
   const [travelInfoDropdownOpen, setTravelInfoDropdownOpen] = useState(false);
   const travelInfoTimeoutRef = useRef(null); // For delayed closing
+  const [scenicSpots, setScenicSpots] = useState(initialScenicSpots); // 在 App 層級管理 scenicSpots
 
   const handleSplashFinished = () => setLoading(false);
   const handlePackagesClick = () => navigate('/packages');
   const handleCustomerServiceClick = () => navigate('/customer-service');
+
+  // 撈取 Sanity 第一筆資料 - 移到 App 層級
+  useEffect(() => {
+    const fetchSanitySpot = async () => {
+      try {
+        // 先測試是否有任何 tour 資料
+        const allTours = await client.fetch(`*[_type == "tour"]`);
+        console.log('所有 tours:', allTours);
+        
+        // 嘗試不同的查詢方式
+        let data = null;
+        
+        // 方法 1: id 為數字（根據 schema，id 是 number 類型）
+        data = await client.fetch(
+          `*[_type == "tour" && id == 1][0]{
+            id,
+            title,
+            description,
+            fullDescription,
+            category,
+            country,
+            travelStyle,
+            startDate,
+            endDate,
+            regularPrice,
+            memberPrice,
+            "imageUrl": image.asset->url
+          }`
+        );
+        console.log('查詢 id=1 結果:', data);
+        
+        // 方法 2: 如果還是沒有，就取第一筆
+        if (!data && allTours.length > 0) {
+          data = allTours[0];
+          console.log('取第一筆資料:', data);
+        }
+        if (data) {
+          // 將 Sanity 資料映射到我們需要的格式
+          const mappedData = {
+            ...data,
+            id: Number(data.id) || 1, // 確保 id 是數字型且有值
+            image: data.imageUrl // 將 imageUrl 映射為 image
+          };
+          
+          console.log('從 Sanity 撈取的資料:', mappedData); // 除錯用
+          
+          // 替換原本的第一筆資料，保留後面其他假資料
+          setScenicSpots(prev => {
+            const newSpots = [...prev];
+            newSpots[0] = mappedData;
+            return newSpots;
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching Sanity data:', error);
+        // 如果撈取失敗，繼續使用假資料
+      }
+    };
+
+    fetchSanitySpot();
+  }, []);
 
   const navItems = [
     { name: "各國行程", href: "/all-trips" },
@@ -532,7 +596,7 @@ function App() {
       </header>
 
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage scenicSpots={scenicSpots} />} />
         <Route path="/search-itinerary" element={<ItinerarySearchPage />} />
         <Route path="/spot/:spotId" element={<SpotDetailsPage scenicSpots={scenicSpots} />} />
         <Route path="/all-trips" element={<AllTripsPage scenicSpots={scenicSpots} />} />
