@@ -1,16 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { FaSearch, FaCalendarAlt, FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaSearch, FaCalendarAlt, FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaSpinner, FaHistory } from 'react-icons/fa';
+import { cartAPI } from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
 
 const OrderLookupPage = () => {
   const navigate = useNavigate();
-  const [searchType, setSearchType] = useState('order');
+  const { isLoggedIn, user } = useAuth();
+  const [searchType, setSearchType] = useState('history');
   const [orderNumber, setOrderNumber] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [orderFound, setOrderFound] = useState(null);
+  const [purchaseHistory, setPurchaseHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [historyLoading, setHistoryLoading] = useState(false);
+
+  // 載入購買歷史
+  const loadPurchaseHistory = async () => {
+    if (!isLoggedIn) return;
+    
+    try {
+      setHistoryLoading(true);
+      const history = await cartAPI.getPurchasedCart();
+      setPurchaseHistory(history);
+    } catch (error) {
+      console.error('Failed to load purchase history:', error);
+    } finally {
+      setHistoryLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isLoggedIn && searchType === 'history') {
+      loadPurchaseHistory();
+    }
+  }, [isLoggedIn, searchType]);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -73,6 +99,19 @@ const OrderLookupPage = () => {
           {/* Search Type Toggle */}
           <div className="flex justify-center mb-6">
             <div className="bg-gray-100 p-1 rounded-lg flex">
+              {isLoggedIn && (
+                <button
+                  type="button"
+                  onClick={() => setSearchType('history')}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    searchType === 'history' 
+                      ? 'bg-amber-500 text-white shadow-sm' 
+                      : 'text-gray-600 hover:text-gray-800'
+                  }`}
+                >
+                  我的購買紀錄
+                </button>
+              )}
               <button
                 type="button"
                 onClick={() => setSearchType('order')}
@@ -98,97 +137,142 @@ const OrderLookupPage = () => {
             </div>
           </div>
 
-          <form onSubmit={handleSearch} className="space-y-4">
-            {searchType === 'order' ? (
-              <div>
-                <label htmlFor="orderNumber" className="block text-sm font-medium text-gray-700 mb-2">
-                  訂單編號
-                </label>
-                <div className="relative">
-                  <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                  <input
-                    type="text"
-                    id="orderNumber"
-                    value={orderNumber}
-                    onChange={(e) => setOrderNumber(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                    placeholder="請輸入訂單編號 (例：TITAN2024001)"
-                    required
-                  />
+          {searchType === 'history' ? (
+            // 購買歷史顯示
+            <div className="space-y-4">
+              {historyLoading ? (
+                <div className="flex justify-center items-center py-8">
+                  <FaSpinner className="animate-spin text-2xl text-amber-600 mr-2" />
+                  <span className="text-gray-600">載入購買紀錄中...</span>
                 </div>
-              </div>
-            ) : (
-              <>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    電子信箱
-                  </label>
-                  <div className="relative">
-                    <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                    <input
-                      type="email"
-                      id="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                      placeholder="請輸入預訂時使用的電子信箱"
-                      required
-                    />
+              ) : purchaseHistory.length === 0 ? (
+                <div className="text-center py-8">
+                  <FaHistory className="text-4xl text-gray-300 mx-auto mb-4" />
+                  <p className="text-gray-500">尚無購買紀錄</p>
+                  <button
+                    onClick={() => navigate('/all-trips')}
+                    className="mt-4 bg-amber-600 text-white px-6 py-2 rounded-md hover:bg-amber-700 transition-colors"
+                  >
+                    開始探索行程
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                    購買紀錄 ({purchaseHistory.length} 筆)
+                  </h3>
+                  {purchaseHistory.map((item, index) => (
+                    <div key={item.id} className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="font-semibold text-gray-800">{item.tour_name}</h4>
+                        <span className="text-sm text-green-600 bg-green-100 px-2 py-1 rounded">已完成</span>
+                      </div>
+                      <div className="text-sm text-gray-600 space-y-1">
+                        <p>訂單編號: #{item.id}</p>
+                        <p>購買金額: NT$ {item.tour_price?.toLocaleString()}</p>
+                        <p>購買時間: {new Date(item.purchased_at).toLocaleString()}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            // 搜尋表單
+            <>
+              <form onSubmit={handleSearch} className="space-y-4">
+                {searchType === 'order' ? (
+                  <div>
+                    <label htmlFor="orderNumber" className="block text-sm font-medium text-gray-700 mb-2">
+                      訂單編號
+                    </label>
+                    <div className="relative">
+                      <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                      <input
+                        type="text"
+                        id="orderNumber"
+                        value={orderNumber}
+                        onChange={(e) => setOrderNumber(e.target.value)}
+                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                        placeholder="請輸入訂單編號 (例：TITAN2024001)"
+                        required
+                      />
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                    聯絡電話 (選填)
-                  </label>
-                  <div className="relative">
-                    <FaPhone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                    <input
-                      type="tel"
-                      id="phone"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                      placeholder="請輸入聯絡電話"
-                    />
-                  </div>
-                </div>
-              </>
-            )}
-
-            <div className="flex gap-3 pt-4">
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="flex-1 bg-amber-600 text-white py-3 px-6 rounded-md hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                {isLoading ? (
-                  <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                    查詢中...
-                  </>
                 ) : (
                   <>
-                    <FaSearch />
-                    查詢訂單
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                        電子信箱
+                      </label>
+                      <div className="relative">
+                        <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <input
+                          type="email"
+                          id="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                          placeholder="請輸入預訂時使用的電子信箱"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                        聯絡電話 (選填)
+                      </label>
+                      <div className="relative">
+                        <FaPhone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <input
+                          type="tel"
+                          id="phone"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                          placeholder="請輸入聯絡電話"
+                        />
+                      </div>
+                    </div>
                   </>
                 )}
-              </button>
-              <button
-                type="button"
-                onClick={resetSearch}
-                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
-              >
-                重置
-              </button>
-            </div>
-          </form>
 
-          {/* Demo Info */}
-          <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-md">
-            <p className="text-sm text-amber-800">
-              <strong>示範資料：</strong>訂單編號 <code className="bg-amber-100 px-1 rounded">TITAN2024001</code> 或信箱 <code className="bg-amber-100 px-1 rounded">demo@example.com</code>
-            </p>
-          </div>
+                <div className="flex gap-3 pt-4">
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="flex-1 bg-amber-600 text-white py-3 px-6 rounded-md hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    {isLoading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                        查詢中...
+                      </>
+                    ) : (
+                      <>
+                        <FaSearch />
+                        查詢訂單
+                      </>
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={resetSearch}
+                    className="px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
+                  >
+                    重置
+                  </button>
+                </div>
+              </form>
+
+              {/* Demo Info */}
+              <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-md">
+                <p className="text-sm text-amber-800">
+                  <strong>示範資料：</strong>訂單編號 <code className="bg-amber-100 px-1 rounded">TITAN2024001</code> 或信箱 <code className="bg-amber-100 px-1 rounded">demo@example.com</code>
+                </p>
+              </div>
+            </>
+          )}
         </div>
       </motion.section>
 

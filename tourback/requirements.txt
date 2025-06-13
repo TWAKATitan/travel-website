@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlalchemy
+asyncpg
+bcrypt
+python-jose
+python-dotenv
+pytz
+mangum

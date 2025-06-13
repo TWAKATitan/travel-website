@@ -10,9 +10,12 @@ import OrderLookupPage from './pages/OrderLookupPage';
 import MemberAreaPage from './pages/MemberAreaPage';
 import PackagesPage from './pages/PackagesPage';
 import CustomerServicePage from './pages/CustomerServicePage';
-import { FaCalendarAlt, FaRegCommentDots } from 'react-icons/fa';
+import CartPage from './pages/CartPage';
+import CheckoutPage from './pages/CheckoutPage';
+import { FaCalendarAlt, FaRegCommentDots, FaShoppingCart } from 'react-icons/fa';
 import { travelInfoSections } from './data/travelInfoData'; // Import travel info data
 import { client } from './sanity/client'; // 導入 Sanity 客戶端
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 // 初始假資料陣列 - 將會被移入 useState
 const initialScenicSpots = [
@@ -164,6 +167,28 @@ const interactiveSectionData = {
       description: '細細品味台灣的獨特風情，從北到南，體驗在地的熱情與多元文化。'
     }
   ]
+};
+
+// 購物車圖標組件
+const CartIcon = () => {
+  const { isLoggedIn } = useAuth();
+  const location = useLocation();
+
+  if (!isLoggedIn) {
+    return null;
+  }
+
+  return (
+    <Link 
+      to="/cart" 
+      className={`flex items-center space-x-2 hover:text-white transition-colors ${
+        location.pathname === '/cart' ? 'text-amber-400' : 'text-gray-300' 
+      }`}
+    >
+      <FaShoppingCart className="text-lg" />
+      <span className="text-sm font-medium">購物車</span>
+    </Link>
+  );
 };
 
 // Reusable Animated Section Component
@@ -393,7 +418,7 @@ const HomePage = ({ scenicSpots }) => {
   );
 };
 
-function App() {
+const AppContent = () => {
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
@@ -588,6 +613,7 @@ function App() {
               <FaCalendarAlt className="text-lg" />
               <span className="text-sm font-medium">日期搜尋</span>
             </Link>
+            <CartIcon />
             <button onClick={handleCustomerServiceClick} className="hover:text-white transition-colors">
               <FaRegCommentDots className="text-xl" />
             </button>
@@ -609,6 +635,10 @@ function App() {
         <Route path="/member-area" element={<MemberAreaPage />} />
         <Route path="/packages" element={<PackagesPage />} />
         <Route path="/customer-service" element={<CustomerServicePage />} />
+        
+        {/* 新增的購物車和結帳路由 */}
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout/:cartId" element={<CheckoutPage />} />
       </Routes>
 
       <footer className="bg-gray-800 text-white py-10 mt-auto">
@@ -651,6 +681,14 @@ function App() {
       </footer>
     </div>
   );
-}
+};
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+};
 
 export default App; 

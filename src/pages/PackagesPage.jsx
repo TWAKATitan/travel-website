@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { cartAPI } from '../services/api';
 import { 
   FaStar, FaCalendarAlt, FaUsers, FaMapMarkerAlt, 
   FaPlane, FaHotel, FaCar, FaUtensils, FaCamera,
@@ -8,6 +10,7 @@ import {
 } from 'react-icons/fa';
 
 const PackagesPage = () => {
+  const { user } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedSort, setSelectedSort] = useState('popular');
 
@@ -147,6 +150,24 @@ const PackagesPage = () => {
   };
 
   const [filteredPackages, setFilteredPackages] = useState(packages);
+
+  const handleAddToCart = async (pkg) => {
+    if (!user) {
+      alert('請先登入會員才能加入購物車');
+      return;
+    }
+
+    try {
+      await cartAPI.addToCart({
+        name: pkg.title,
+        price: pkg.price
+      });
+      alert('已成功加入購物車！');
+    } catch (error) {
+      console.error('加入購物車失敗:', error);
+      alert('加入購物車失敗，請稍後再試');
+    }
+  };
 
   useEffect(() => {
     let filtered = packages;
@@ -304,7 +325,10 @@ const PackagesPage = () => {
             </div>
             
             <div className="flex gap-2">
-              <button className="flex-1 bg-amber-600 text-white py-2 px-4 rounded-md hover:bg-amber-700 transition-colors text-sm font-medium">
+              <button 
+                onClick={() => handleAddToCart(pkg)}
+                className="flex-1 bg-amber-600 text-white py-2 px-4 rounded-md hover:bg-amber-700 transition-colors text-sm font-medium"
+              >
                 立即預訂
               </button>
               <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">

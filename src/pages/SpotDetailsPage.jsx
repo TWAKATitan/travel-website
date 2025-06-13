@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation, Link } from 'react-router-dom';
+import { useParams, useLocation, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { FaShoppingCart, FaUser, FaSpinner } from 'react-icons/fa';
+import { cartAPI } from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
 
 const SpotDetailsPage = ({ scenicSpots }) => {
   const { spotId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
+  const { isLoggedIn, user } = useAuth();
   
   const [selectedSpot, setSelectedSpot] = useState(null);
   const [filteredSpots, setFilteredSpots] = useState([]);
+  const [addingToCart, setAddingToCart] = useState(false);
+  const [cartMessage, setCartMessage] = useState('');
 
   // Filters
   const [selectedCountry, setSelectedCountry] = useState('');
@@ -71,6 +78,34 @@ const SpotDetailsPage = ({ scenicSpots }) => {
     setSelectedTheme('');
   };
 
+  const handleAddToCart = async () => {
+    if (!isLoggedIn) {
+      navigate('/member-area');
+      return;
+    }
+
+    if (!selectedSpot) return;
+
+    setAddingToCart(true);
+    setCartMessage('');
+
+    try {
+      await cartAPI.addToCart({
+        name: selectedSpot.title,
+        price: user?.isVip ? selectedSpot.memberPrice : selectedSpot.regularPrice,
+      });
+
+      setCartMessage('已成功加入購物車！');
+      setTimeout(() => setCartMessage(''), 3000);
+    } catch (error) {
+      console.error('Failed to add to cart:', error);
+      setCartMessage('加入購物車失敗，請稍後再試');
+      setTimeout(() => setCartMessage(''), 3000);
+    } finally {
+      setAddingToCart(false);
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 md:px-6 py-8">
       {/* Main Spot Details - Animated */}
@@ -102,11 +137,58 @@ const SpotDetailsPage = ({ scenicSpots }) => {
             <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">{selectedSpot.category}</span>
           </div>
           <p className="text-sm text-gray-600 mb-2">旅遊期間: {new Date(selectedSpot.startDate).toLocaleDateString()} - {new Date(selectedSpot.endDate).toLocaleDateString()}</p>
-          {/* Prices Section */}
-          <div className="my-4 p-4 bg-gray-50 rounded-lg shadow-inner">
-            <p className="text-base text-gray-800 font-semibold">一般價: <span className="text-lg">NT$ {selectedSpot.regularPrice.toLocaleString()}</span></p>
-            <p className="text-base text-amber-700 font-bold">會員價: <span className="text-lg">NT$ {selectedSpot.memberPrice.toLocaleString()}</span></p>
+          
+          {/* Prices and Cart Section */}
+          <div className="my-6 p-6 bg-gray-50 rounded-lg shadow-inner">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                {user?.isVip && (
+                  <p className="text-sm text-gray-500 line-through">一般價: NT$ {selectedSpot.regularPrice.toLocaleString()}</p>
+                )}
+                <p className="text-xl font-bold text-amber-600">
+                  {user?.isVip ? '會員價' : '價格'}: NT$ {(user?.isVip ? selectedSpot.memberPrice : selectedSpot.regularPrice).toLocaleString()}
+                </p>
+                {user?.isVip && (
+                  <p className="text-sm text-green-600 font-medium">VIP會員優惠價</p>
+                )}
+              </div>
+              
+              <div className="flex flex-col gap-2">
+                {cartMessage && (
+                  <div className={`text-sm px-3 py-2 rounded-lg ${
+                    cartMessage.includes('成功') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                  }`}>
+                    {cartMessage}
+                  </div>
+                )}
+                
+                <button
+                  onClick={handleAddToCart}
+                  disabled={addingToCart}
+                  className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 min-w-[160px]"
+                >
+                  {addingToCart ? (
+                    <>
+                      <FaSpinner className="animate-spin" />
+                      加入中...
+                    </>
+                  ) : (
+                    <>
+                      <FaShoppingCart />
+                      {isLoggedIn ? '加入購物車' : '登入後購買'}
+                    </>
+                  )}
+                </button>
+                
+                {!isLoggedIn && (
+                  <p className="text-xs text-gray-500 text-center">
+                    需要登入才能購買行程
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
+          
           <p className="text-gray-700 leading-relaxed whitespace-pre-line">{selectedSpot.fullDescription}</p>
         </motion.div>
       </motion.section>
